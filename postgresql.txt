@@ -1,0 +1,60 @@
+postgres=# \l
+                             List of databases
+   Name    |  Owner   | Encoding | Collate | Ctype |   Access privileges   
+-----------+----------+----------+---------+-------+-----------------------
+ postgres  | postgres | UTF8     | C       | C     | 
+ template0 | postgres | UTF8     | C       | C     | =c/postgres          +
+           |          |          |         |       | postgres=CTc/postgres
+ template1 | postgres | UTF8     | C       | C     | =c/postgres          +
+           |          |          |         |       | postgres=CTc/postgres
+(3 rows)
+
+postgres=# \dn
+  List of schemas
+  Name  |  Owner   
+--------+----------
+ public | postgres
+(1 row)
+
+postgres=# create SCHEMA searchink;
+CREATE SCHEMA
+postgres=# \dn
+   List of schemas
+   Name    |  Owner   
+-----------+----------
+ public    | postgres
+ searchink | postgres
+(2 rows)
+
+postgres=# create table searchink.tasks(id varchar(36) primary key,createdAt timestamp, updatedAt timestamp, dueDate timestamp, resolvedAt timestamp, title varchar(20), description varchar(128), priority int, status int);
+CREATE TABLE
+postgres=# \dn
+   List of schemas
+   Name    |  Owner   
+-----------+----------
+ public    | postgres
+ searchink | postgres
+(2 rows)
+
+postgres=# \dt searchink.*
+          List of relations
+  Schema   | Name  | Type  |  Owner   
+-----------+-------+-------+----------
+ searchink | tasks | table | postgres
+(1 row)
+
+postgres=# \d searchink.tasks
+                Table "searchink.tasks"
+   Column    |            Type             | Modifiers 
+-------------+-----------------------------+-----------
+ id          | character varying(36)       | not null
+ createdat   | timestamp without time zone | 
+ updatedat   | timestamp without time zone | 
+ duedate     | timestamp without time zone | 
+ resolvedat  | timestamp without time zone | 
+ title       | character varying(20)       | 
+ description | character varying(128)      | 
+ priority    | integer                     | 
+ status      | integer                     | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
