@@ -3,6 +3,9 @@ package org.nashorn.searchink;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,4 +59,12 @@ public class TaskController {
 		Task task = taskRepository.findOneById(id);
 		taskRepository.delete(task);
     }
+	
+	
+	
+	@MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+	public List<Task> broadcasting() throws Exception {
+		return taskRepository.findAll();
+	}
 }
