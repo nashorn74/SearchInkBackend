@@ -16,8 +16,7 @@ public class CronTable {
 	@Autowired
 	private SimpMessagingTemplate webSocket;
 	
-	// 애플리케이션 시작 후 60초 후에 첫 실행, 그 후 매 60초마다 주기적으로 실행한다. 
-	@Scheduled(initialDelay = 6000, fixedDelay = 6000) 
+	@Scheduled(initialDelay = 60000, fixedDelay = 60000) 
 	public void otherJob() { 
 		System.out.println("@Scheduled");
 		taskRepository.save(new Task(new Date(), null, null, null, 
