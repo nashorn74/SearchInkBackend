@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
@@ -41,7 +42,7 @@ public class TaskController {
 		
 	@GetMapping
     public List<TaskDto.Task> getExams() {
-        List<Task> tasks = taskRepository.findAll();
+        List<Task> tasks = taskRepository.findAllExceptPostpone();
         return tasks.stream().map(task -> modelMapper.map(task, TaskDto.Task.class))
           .collect(Collectors.toList());
     }
@@ -53,7 +54,6 @@ public class TaskController {
     		@RequestParam(value = "priority") Integer priority,
     		@RequestParam(value = "status") Integer status) {
 		Task task = taskRepository.findOneById(id);
-		
 		task.setUpdatedat(new Date());
 		task.setTitle(title);
 		task.setDescription(description);
@@ -62,13 +62,21 @@ public class TaskController {
         return taskRepository.save(task);
     }
 	
+	@RequestMapping(value = "postpone/{id}", method = RequestMethod.PUT)
+    public Task postpone(@PathVariable(value = "id") String id) {
+		Task task = taskRepository.findOneById(id);
+		Date postponeDate = DateUtils.addMinutes(new Date(), 1);
+		task.setUpdatedat(new Date());
+		task.setDuedate(null);
+		task.setResolvedat(postponeDate);
+        return taskRepository.save(task);
+    }
+	
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable(value = "id") String id) {
 		Task task = taskRepository.findOneById(id);
 		taskRepository.delete(task);
     }
-	
-	
 	
 	@MessageMapping("/hello")
     @SendTo("/topic/greetings")

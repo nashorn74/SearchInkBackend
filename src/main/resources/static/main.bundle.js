@@ -124,7 +124,12 @@ var AppComponent = /** @class */ (function () {
         console.log(task);
     };
     AppComponent.prototype.postponeTask = function (id) {
+        var _this = this;
         console.log(id);
+        this.http.put('http://127.0.0.1:8080/tasks/postpone/' + id, '').subscribe(function (data) {
+            console.log(data);
+            _this.loadTask();
+        });
     };
     AppComponent.prototype.deleteTask = function (id) {
         var _this = this;
