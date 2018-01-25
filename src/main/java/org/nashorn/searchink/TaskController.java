@@ -2,6 +2,9 @@ package org.nashorn.searchink;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -18,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class TaskController {
 	@Autowired
     private TaskRepository taskRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 		
 	@RequestMapping(method = RequestMethod.POST)
     public Task put(@RequestParam(value = "title") String title, 
@@ -34,8 +40,10 @@ public class TaskController {
     }
 		
 	@GetMapping
-    public List<Task> getExams() {
-        return taskRepository.findAll();
+    public List<TaskDto.Task> getExams() {
+        List<Task> tasks = taskRepository.findAll();
+        return tasks.stream().map(task -> modelMapper.map(task, TaskDto.Task.class))
+          .collect(Collectors.toList());
     }
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)

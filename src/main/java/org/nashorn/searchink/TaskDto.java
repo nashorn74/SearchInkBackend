@@ -7,10 +7,6 @@ public class TaskDto {
 	@Data
 	public static class Task{
 		private String id;
-		private Date createdat;
-		private Date updatedat;
-		private Date duedate;
-		private Date resolvedat;
 		private String title;
 		private String description;
 		private Integer priority;
@@ -21,30 +17,6 @@ public class TaskDto {
 		}
 		public void setId(String id) {
 			this.id = id;
-		}
-		public Date getCreatedat() {
-			return createdat;
-		}
-		public void setCreatedat(Date createdat) {
-			this.createdat = createdat;
-		}
-		public Date getUpdatedat() {
-			return updatedat;
-		}
-		public void setUpdatedat(Date updatedat) {
-			this.updatedat = updatedat;
-		}
-		public Date getDuedate() {
-			return duedate;
-		}
-		public void setDuedate(Date duedate) {
-			this.duedate = duedate;
-		}
-		public Date getResolvedat() {
-			return resolvedat;
-		}
-		public void setResolvedat(Date resolvedat) {
-			this.resolvedat = resolvedat;
 		}
 		public String getTitle() {
 			return title;
